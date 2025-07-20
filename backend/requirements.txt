@@ -1,5 +1,6 @@
 flask
 flask-sqlalchemy
+flask_migrate
 flask-cors
 pymysql
 werkzeug
