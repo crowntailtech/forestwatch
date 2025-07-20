@@ -35,9 +35,16 @@ resource "aws_iam_role" "ecs_execution" {
   })
 }
 
+# Attach default execution role policy
 resource "aws_iam_role_policy_attachment" "ecs_execution_policy" {
   role       = aws_iam_role.ecs_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+# ✅ Additional: Allow ECR GetAuthorizationToken for image pulls
+resource "aws_iam_role_policy_attachment" "ecs_execution_ecr_access" {
+  role       = aws_iam_role.ecs_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
 # Lambda Execution Role
@@ -57,7 +64,7 @@ resource "aws_iam_role" "lambda_exec_role" {
 }
 
 resource "aws_iam_policy" "lambda_policy" {
-  name   = "${var.student_id}-lambda-policy"
+  name = "${var.student_id}-lambda-policy"
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -70,11 +77,11 @@ resource "aws_iam_policy" "lambda_policy" {
       {
         Effect   = "Allow",
         Action   = [
-            "sqs:SendMessage",
-            "sqs:ReceiveMessage",
-            "sqs:DeleteMessage",
-            "sqs:GetQueueAttributes",
-            "sqs:GetQueueUrl"
+          "sqs:SendMessage",
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:GetQueueUrl"
         ],
         Resource = aws_sqs_queue.audit_queue.arn
       },
