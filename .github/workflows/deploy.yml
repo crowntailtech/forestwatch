@@ -30,6 +30,28 @@ jobs:
       run: terraform init
       working-directory: ./terraform
 
+    - name: Zip Image Moderation Lambda
+      run: |
+        mkdir -p build/moderation
+        cp terraform/lambda/moderation.py build/moderation/
+        if [ -f terraform/lambda/requirements.txt ]; then
+          pip install -r terraform/lambda/requirements.txt -t build/moderation/
+        fi
+        cd build/moderation
+        zip -r ../../../terraform/lambda/moderation.zip .
+        cd -
+
+    - name: Zip Audit Logger Lambda
+      run: |
+        mkdir -p build/logger
+        cp terraform/lambda/logger.py build/logger/
+        if [ -f terraform/lambda/requirements.txt ]; then
+          pip install -r terraform/lambda/requirements.txt -t build/logger/
+        fi
+        cd build/logger
+        zip -r ../../../terraform/lambda/logger.zip .
+        cd -
+
     - name: Terraform Apply
       run: terraform apply -auto-approve
       working-directory: ./terraform
