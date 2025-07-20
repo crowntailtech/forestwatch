@@ -33,6 +33,6 @@ resource "aws_ecs_task_definition" "backend_task" {
     }
   ])
 
-  execution_role_arn = aws_iam_role.ecs_task_role.arn
+  execution_role_arn = aws_iam_role.ecs_execution.arn
   task_role_arn      = aws_iam_role.ecs_task_role.arn
 }
