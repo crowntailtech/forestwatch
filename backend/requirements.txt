@@ -5,4 +5,5 @@ flask-cors
 pymysql
 werkzeug
 boto3
+PyJWT
 Pillow
