@@ -35,6 +35,7 @@ jobs:
       working-directory: ./terraform
       env:
         TF_VAR_student_id: ${{ secrets.TF_VAR_student_id }}
+        TF_VAR_s3_access_key: ${{ secrets.S3_ACCESS_KEY }}
 
     - name: Decode & Inject Backend Env
       run: echo "${{ secrets.BACKEND_ENV_FILE }}" | base64 --decode > backend/.env

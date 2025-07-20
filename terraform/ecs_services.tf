@@ -6,12 +6,11 @@ resource "aws_ecs_service" "frontend" {
   launch_type     = "FARGATE"
   desired_count   = 1
 
-  network_configuration {
-    subnets         = aws_subnet.public[*].id
+    network_configuration {
+    subnets         = [aws_subnet.public_a.id, aws_subnet.public_b.id]
     assign_public_ip = true
-    security_groups = [aws_security_group.ecs_service_sg.id]
-  }
-
+    security_groups = [aws_security_group.ecs_sg.id]
+    }
   load_balancer {
     target_group_arn = aws_lb_target_group.frontend_tg.arn
     container_name   = "frontend"
@@ -29,11 +28,11 @@ resource "aws_ecs_service" "backend" {
   launch_type     = "FARGATE"
   desired_count   = 1
 
-  network_configuration {
-    subnets         = aws_subnet.private[*].id
-    assign_public_ip = false
-    security_groups = [aws_security_group.ecs_service_sg.id]
-  }
+    network_configuration {
+    subnets         = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+    assign_public_ip = true
+    security_groups = [aws_security_group.ecs_sg.id]
+    }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.backend_tg.arn

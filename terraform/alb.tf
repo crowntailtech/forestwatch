@@ -22,34 +22,34 @@ resource "aws_security_group" "alb_sg" {
 resource "aws_lb" "frontend_alb" {
   name               = "${var.student_id}-frontend-alb"
   load_balancer_type = "application"
-  subnets            = aws_subnet.public[*].id
+  subnets            = [aws_subnet.public_a.id, aws_subnet.public_b.id]
   security_groups    = [aws_security_group.alb_sg.id]
 }
 
-# Internal ALB for Backend
+# Internal ALB for Backend (currently using public subnets due to no private ones defined)
 resource "aws_lb" "backend_alb" {
   name               = "${var.student_id}-backend-alb"
   internal           = true
   load_balancer_type = "application"
-  subnets            = aws_subnet.private[*].id
+  subnets            = [aws_subnet.public_a.id, aws_subnet.public_b.id]
   security_groups    = [aws_security_group.alb_sg.id]
 }
 
 # Target Group - Frontend
 resource "aws_lb_target_group" "frontend_tg" {
-  name     = "${var.student_id}-frontend-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
+  name        = "${var.student_id}-frontend-tg"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.main.id
   target_type = "ip"
 }
 
 # Target Group - Backend
 resource "aws_lb_target_group" "backend_tg" {
-  name     = "${var.student_id}-backend-tg"
-  port     = 5000
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
+  name        = "${var.student_id}-backend-tg"
+  port        = 5000
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.main.id
   target_type = "ip"
 }
 
@@ -65,7 +65,7 @@ resource "aws_lb_listener" "frontend_listener" {
   }
 }
 
-# Listener for Backend ALB (optional, used by internal ECS)
+# Listener for Backend ALB
 resource "aws_lb_listener" "backend_listener" {
   load_balancer_arn = aws_lb.backend_alb.arn
   port              = 5000

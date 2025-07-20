@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "backend_task" {
   container_definitions = jsonencode([
     {
       name      = "backend"
-      image     = "${aws_ecr_repository.backend.repository_url}:latest"
+      image     = "${aws_ecr_repository.backend_repo.repository_url}:latest"
       essential = true
       portMappings = [
         {
@@ -23,18 +23,16 @@ resource "aws_ecs_task_definition" "backend_task" {
         },
         {
           name  = "S3_BUCKET"
-          value = aws_s3_bucket.image_bucket.bucket
-        }
-      ]
-      secrets = [
+          value = aws_s3_bucket.complaint_images.bucket
+        },
         {
-          name      = "S3_ACCESS_KEY"
-          valueFrom = aws_secretsmanager_secret_version.backend_env.arn
+          name  = "S3_ACCESS_KEY"
+          value = "${var.s3_access_key}"
         }
       ]
     }
   ])
 
-  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn      = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn = aws_iam_role.ecs_task_role.arn
+  task_role_arn      = aws_iam_role.ecs_task_role.arn
 }

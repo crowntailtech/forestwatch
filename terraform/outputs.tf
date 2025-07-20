@@ -1,25 +1,25 @@
 output "backend_ecr_repo_url" {
-  value = aws_ecr_repository.backend.repository_url
+  value = aws_ecr_repository.backend_repo.repository_url
 }
 
 output "frontend_ecr_repo_url" {
-  value = aws_ecr_repository.frontend.repository_url
+  value = aws_ecr_repository.frontend_repo.repository_url
 }
 
 output "ecs_cluster_name" {
-  value = aws_ecs_cluster.forest_cluster.name
+  value = aws_ecs_cluster.main.name
 }
 
 output "backend_service_name" {
-  value = aws_ecs_service.backend_service.name
+  value = aws_ecs_service.backend.name
 }
 
 output "frontend_service_name" {
-  value = aws_ecs_service.frontend_service.name
+  value = aws_ecs_service.frontend.name
 }
 
 output "s3_bucket_name" {
-  value = aws_s3_bucket.image_bucket.bucket
+  value = aws_s3_bucket.complaint_images.bucket
 }
 
 output "sqs_queue_url" {

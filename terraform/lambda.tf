@@ -32,3 +32,11 @@ resource "aws_lambda_function" "audit_logger" {
     }
   }
 }
+
+resource "aws_lambda_permission" "allow_s3_trigger" {
+  statement_id  = "AllowExecutionFromS3"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.image_moderation.function_name
+  principal     = "s3.amazonaws.com"
+  source_arn    = aws_s3_bucket.complaint_images.arn
+}
