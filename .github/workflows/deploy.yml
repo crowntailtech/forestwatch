@@ -1,0 +1,62 @@
+name: Deploy ForestWatch
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./terraform
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: ./terraform
+      env:
+        TF_VAR_student_id: ${{ secrets.TF_VAR_student_id }}
+
+    - name: Decode & Inject Backend Env
+      run: echo "${{ secrets.BACKEND_ENV_FILE }}" | base64 --decode > backend/.env
+
+    - name: Build & Push Backend Docker Image
+      run: |
+        IMAGE_URI=$(terraform -chdir=terraform output -raw backend_ecr_repo_url)
+        docker build -t $IMAGE_URI ./backend
+        echo "Pushing backend image to $IMAGE_URI"
+        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $IMAGE_URI
+        docker push $IMAGE_URI
+
+    - name: Build & Push Frontend Docker Image
+      run: |
+        IMAGE_URI=$(terraform -chdir=terraform output -raw frontend_ecr_repo_url)
+        docker build -t $IMAGE_URI ./frontend
+        echo "Pushing frontend image to $IMAGE_URI"
+        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $IMAGE_URI
+        docker push $IMAGE_URI
+
+    - name: Update ECS Service
+      run: |
+        aws ecs update-service \
+          --cluster $(terraform -chdir=terraform output -raw ecs_cluster_name) \
+          --service $(terraform -chdir=terraform output -raw backend_service_name) \
+          --force-new-deployment
