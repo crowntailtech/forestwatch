@@ -16,4 +16,4 @@ COPY frontend/ ./frontend/
 EXPOSE 5000 8000
 
 # Start both Flask backend and Python HTTP server for frontend
-CMD ["sh", "-c", "python3 -m http.server 8000 --directory /app/frontend & python3 /app/backend/app.py"]
+CMD ["sh", "-c", "python3 -m http.server 8000 --directory /app/frontend & exec python3 /app/backend/app.py"]
