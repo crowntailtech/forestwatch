@@ -5,6 +5,8 @@ const registerForm = document.getElementById('register-form');
 const formTitle = document.getElementById('form-title');
 const toggleText = document.getElementById('toggle-text');
 const toggleLink = document.getElementById('toggle-link');
+const origin = window.location.origin; // "http://localhost:8000"
+const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
 let showingLogin = true;
 
@@ -36,7 +38,7 @@ loginForm.addEventListener('submit', (e) => {
     password: password
   };
 
-  fetch('/api/login', {
+  fetch(`${apiBaseUrl}:5000/api/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -73,7 +75,7 @@ registerForm.addEventListener('submit', (e) => {
     password: password
   };
 
-  fetch('/api/register', {
+  fetch(`${apiBaseUrl}:5000/api/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

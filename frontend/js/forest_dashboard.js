@@ -4,10 +4,12 @@ const projectsList = document.getElementById('projects-list');
 const complaintsList = document.getElementById('complaints-list');
 const newProjectBtn = document.getElementById('new-project-btn');
 const logoutBtn = document.getElementById('logout-btn');
+const origin = window.location.origin; // "http://localhost:8000"
+const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
 // Load projects from API
 function loadProjects() {
-  fetch('/api/projects')
+  fetch(`${apiBaseUrl}:5000/api/projects`)
     .then(res => res.json())
     .then(projects => {
       projectsList.innerHTML = '';
@@ -32,7 +34,7 @@ function loadProjects() {
 
 // Load complaints from API
 function loadComplaints() {
-  fetch('/api/complaints')
+  fetch(`${apiBaseUrl}:5000/api/complaints`)
     .then(res => res.json())
     .then(complaints => {
       complaintsList.innerHTML = '';
@@ -60,7 +62,7 @@ function editProject(id) {
 
 function deleteProject(id) {
   if (confirm('Are you sure you want to delete this project?')) {
-    fetch(`/api/projects/${id}`, {
+    fetch(`${apiBaseUrl}:5000/api/projects/${id}`, {
       method: 'DELETE'
     })
       .then(res => res.json())
@@ -75,7 +77,7 @@ function deleteProject(id) {
 }
 
 function updateComplaintStatus(id, status) {
-  fetch(`/api/complaints/${id}`, {
+  fetch(`${apiBaseUrl}:5000/api/complaints/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

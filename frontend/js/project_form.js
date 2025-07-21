@@ -2,6 +2,8 @@
 
 const projectForm = document.getElementById('project-form');
 const backBtn = document.getElementById('back-btn');
+const origin = window.location.origin; // "http://localhost:8000"
+const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
 // Example: Get project ID from query string (e.g., ?id=789)
 const urlParams = new URLSearchParams(window.location.search);
@@ -9,7 +11,7 @@ const projectId = urlParams.get('id');
 
 // If editing, load project data
 if (projectId) {
-  fetch(`/api/projects/${projectId}`)
+  fetch(`${apiBaseUrl}:5000/api/projects/${projectId}`)
     .then(res => res.json())
     .then(project => {
       const inputs = projectForm.querySelectorAll('input, select');
@@ -38,7 +40,7 @@ projectForm.addEventListener('submit', (e) => {
   };
 
   const method = projectId ? 'PUT' : 'POST';
-  const url = projectId ? `/api/projects/${projectId}` : '/api/projects';
+  const url = projectId ? `${apiBaseUrl}:5000/api/projects/${projectId}` : `${apiBaseUrl}:5000/api/projects`;
 
   fetch(url, {
     method: method,

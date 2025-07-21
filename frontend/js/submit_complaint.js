@@ -2,6 +2,8 @@
 
 const complaintForm = document.getElementById('complaint-form');
 const backBtn = document.getElementById('back-btn');
+const origin = window.location.origin; // "http://localhost:8000"
+const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
 complaintForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -17,7 +19,7 @@ complaintForm.addEventListener('submit', (e) => {
   formData.append('location', location);
   formData.append('image', imageFile);
 
-  fetch('/api/complaints', {
+  fetch(`${apiBaseUrl}:5000/api/complaints`, {
     method: 'POST',
     body: formData
   })

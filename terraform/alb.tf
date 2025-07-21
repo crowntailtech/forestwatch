@@ -35,7 +35,7 @@ resource "aws_lb_target_group" "combined_tg" {
   target_type = "ip"
 
   health_check {
-    path                = "/"
+    path                = "/citizen_dashboard.html"
     port                = "traffic-port"
     protocol            = "HTTP"
     matcher             = "200"

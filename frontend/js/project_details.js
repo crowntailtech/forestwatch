@@ -2,13 +2,15 @@
 
 const projectInfoDiv = document.getElementById('project-info');
 const backBtn = document.getElementById('back-btn');
+const origin = window.location.origin; // "http://localhost:8000"
+const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
 // Example: Get project ID from query string (e.g., ?id=123)
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get('id');
 
 function loadProjectDetails() {
-  fetch(`/api/projects/${projectId}`)
+  fetch(`${apiBaseUrl}:5000/api/projects/${projectId}`)
     .then(res => res.json())
     .then(project => {
       projectInfoDiv.innerHTML = `

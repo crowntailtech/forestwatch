@@ -2,13 +2,15 @@
 
 const complaintInfoDiv = document.getElementById('complaint-info');
 const backBtn = document.getElementById('back-btn');
+const origin = window.location.origin; // "http://localhost:8000"
+const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
 // Example: Get complaint ID from query string (e.g., ?id=456)
 const urlParams = new URLSearchParams(window.location.search);
 const complaintId = urlParams.get('id');
 
 function loadComplaintDetails() {
-  fetch(`/api/complaints/${complaintId}`)
+  fetch(`${apiBaseUrl}:5000/api/complaints/${complaintId}`)
     .then(res => res.json())
     .then(complaint => {
       complaintInfoDiv.innerHTML = `
