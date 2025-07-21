@@ -4,16 +4,13 @@ WORKDIR /app
 
 # Install dependencies
 COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && apt-get update && apt-get install -y supervisor
 
-# Copy backend code
+# Copy backend and frontend code
 COPY backend/ ./backend/
-
-# Copy frontend static files
 COPY frontend/ ./frontend/
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Expose backend (5000) and frontend (8000) ports
 EXPOSE 5000 8000
 
-# Start both Flask backend and Python HTTP server for frontend
-CMD ["sh", "-c", "python3 -m http.server 8000 --directory /app/frontend > /dev/stdout 2>&1 & exec python3 /app/backend/app.py"]
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
