@@ -36,7 +36,7 @@ loginForm.addEventListener('submit', (e) => {
     password: password
   };
 
-  fetch('/api/login', {
+  fetch('http://backend.local:5000/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
