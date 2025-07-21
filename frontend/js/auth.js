@@ -36,7 +36,7 @@ loginForm.addEventListener('submit', (e) => {
     password: password
   };
 
-  fetch('http://backend.local:5000/api/login', {
+  fetch('/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ registerForm.addEventListener('submit', (e) => {
     password: password
   };
 
-  fetch('http://backend.local:5000/api/register', {
+  fetch('/api/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

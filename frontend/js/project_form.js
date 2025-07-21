@@ -9,7 +9,7 @@ const projectId = urlParams.get('id');
 
 // If editing, load project data
 if (projectId) {
-  fetch(`http://backend.local:5000/api/projects/${projectId}`)
+  fetch(`/api/projects/${projectId}`)
     .then(res => res.json())
     .then(project => {
       const inputs = projectForm.querySelectorAll('input, select');
@@ -38,7 +38,7 @@ projectForm.addEventListener('submit', (e) => {
   };
 
   const method = projectId ? 'PUT' : 'POST';
-  const url = projectId ? `http://backend.local:5000/api/projects/${projectId}` : 'http://backend.local:5000/api/projects';
+  const url = projectId ? `/api/projects/${projectId}` : '/api/projects';
 
   fetch(url, {
     method: method,

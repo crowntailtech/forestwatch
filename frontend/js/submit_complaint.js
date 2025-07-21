@@ -17,7 +17,7 @@ complaintForm.addEventListener('submit', (e) => {
   formData.append('location', location);
   formData.append('image', imageFile);
 
-  fetch('http://backend.local:5000/api/complaints', {
+  fetch('/api/complaints', {
     method: 'POST',
     body: formData
   })

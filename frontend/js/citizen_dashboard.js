@@ -7,7 +7,7 @@ const logoutBtn = document.getElementById('logout-btn');
 
 // Load projects from API
 function loadProjects() {
-  fetch('http://backend.local:5000/api/projects')
+  fetch('/api/projects')
     .then(res => res.json())
     .then(projects => {
       projectsList.innerHTML = '';
@@ -30,7 +30,7 @@ function loadProjects() {
 
 // Load complaints from API
 function loadComplaints() {
-  fetch('http://backend.local:5000/api/complaints')
+  fetch('/api/complaints')
     .then(res => res.json())
     .then(complaints => {
       complaintsList.innerHTML = '';

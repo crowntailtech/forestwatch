@@ -7,7 +7,7 @@ const logoutBtn = document.getElementById('logout-btn');
 
 // Load projects from API
 function loadProjects() {
-  fetch('http://backend.local:5000/api/projects')
+  fetch('/api/projects')
     .then(res => res.json())
     .then(projects => {
       projectsList.innerHTML = '';
@@ -32,7 +32,7 @@ function loadProjects() {
 
 // Load complaints from API
 function loadComplaints() {
-  fetch('http://backend.local:5000/api/complaints')
+  fetch('/api/complaints')
     .then(res => res.json())
     .then(complaints => {
       complaintsList.innerHTML = '';
@@ -60,7 +60,7 @@ function editProject(id) {
 
 function deleteProject(id) {
   if (confirm('Are you sure you want to delete this project?')) {
-    fetch(`http://backend.local:5000/api/projects/${id}`, {
+    fetch(`/api/projects/${id}`, {
       method: 'DELETE'
     })
       .then(res => res.json())
@@ -75,7 +75,7 @@ function deleteProject(id) {
 }
 
 function updateComplaintStatus(id, status) {
-  fetch(`http://backend.local:5000/api/complaints/${id}`, {
+  fetch(`/api/complaints/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

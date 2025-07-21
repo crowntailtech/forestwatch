@@ -13,7 +13,7 @@ resource "aws_ecs_service" "combined" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.combined_tg.arn
-    container_name   = "combined"
+    container_name   = "combined-app"
     container_port   = 8000 # serving frontend on 8000 via Python HTTP server
   }
 
