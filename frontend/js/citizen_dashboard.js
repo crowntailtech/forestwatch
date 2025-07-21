@@ -1,15 +1,24 @@
-// citizen_dashboard.js (API-ready)
+// citizen_dashboard.js (API-ready with token & logout)
 
 const projectsList = document.getElementById('projects-list');
 const complaintsList = document.getElementById('complaints-list');
 const newComplaintBtn = document.getElementById('new-complaint-btn');
 const logoutBtn = document.getElementById('logout-btn');
-const origin = window.location.origin; // "http://localhost:8000"
+
+const origin = window.location.origin; // e.g., http://localhost:8000
 const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
+const token = localStorage.getItem('token');
+
+if (!token) {
+  alert("Unauthorized. Please log in.");
+  window.location.href = '/login.html';
+}
 
 // Load projects from API
 function loadProjects() {
-  fetch(`${apiBaseUrl}:5000/api/projects`)
+  fetch(`${apiBaseUrl}:5000/api/projects`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
     .then(res => res.json())
     .then(projects => {
       projectsList.innerHTML = '';
@@ -27,16 +36,18 @@ function loadProjects() {
     })
     .catch(err => {
       console.error('Error loading projects:', err);
+      alert('Failed to load projects');
     });
 }
 
 // Load complaints from API
 function loadComplaints() {
-  fetch(`${apiBaseUrl}:5000/api/complaints`)
+  fetch(`${apiBaseUrl}:5000/api/complaints`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
     .then(res => res.json())
     .then(complaints => {
       complaintsList.innerHTML = '';
-
       complaints.forEach(c => {
         const card = document.createElement('div');
         card.className = 'complaint-card';
@@ -49,17 +60,20 @@ function loadComplaints() {
     })
     .catch(err => {
       console.error('Error loading complaints:', err);
+      alert('Failed to load complaints');
     });
 }
 
+// Handle new complaint button
 newComplaintBtn.addEventListener('click', () => {
-  alert('Redirecting to complaint submission page');
   window.location.href = 'submit_complaint.html';
 });
 
+// Handle logout
 logoutBtn.addEventListener('click', () => {
-  // Future: Clear session, call logout API, and redirect
-  alert('Logging out (future: clear session and redirect)');
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  window.location.href = '/login.html';
 });
 
 // Initialize

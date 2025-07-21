@@ -1,16 +1,30 @@
-// complaint_status.js (API-ready)
+// complaint_status.js (API-ready with token, error handling)
 
 const complaintInfoDiv = document.getElementById('complaint-info');
 const backBtn = document.getElementById('back-btn');
-const origin = window.location.origin; // "http://localhost:8000"
-const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
-// Example: Get complaint ID from query string (e.g., ?id=456)
+const origin = window.location.origin;
+const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
+const token = localStorage.getItem('token');
+const role = localStorage.getItem('role');
+
+if (!token || role !== 'citizen') {
+  alert("Unauthorized. Please log in as a citizen.");
+  window.location.href = '/login.html';
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const complaintId = urlParams.get('id');
 
+if (!complaintId) {
+  complaintInfoDiv.innerHTML = '<p>Invalid complaint ID.</p>';
+  throw new Error('Missing complaint ID in URL');
+}
+
 function loadComplaintDetails() {
-  fetch(`${apiBaseUrl}:5000/api/complaints/${complaintId}`)
+  fetch(`${apiBaseUrl}:5000/api/complaints/${complaintId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
     .then(res => res.json())
     .then(complaint => {
       complaintInfoDiv.innerHTML = `
@@ -27,7 +41,9 @@ function loadComplaintDetails() {
         <p>${complaint.status}</p>
 
         <h3>Submitted Image</h3>
-        <img src="${complaint.image_url}" alt="Complaint Image" style="max-width:100%; border-radius:5px;">
+        <img src="${complaint.image_url}" alt="Complaint Image"
+             style="max-width:100%; border-radius:5px;" 
+             onerror="this.style.display='none'">
       `;
     })
     .catch(err => {

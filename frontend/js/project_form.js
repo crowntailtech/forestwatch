@@ -1,17 +1,25 @@
-// project_form.js (API-ready)
+// project_form.js (API-ready with auth)
 
 const projectForm = document.getElementById('project-form');
 const backBtn = document.getElementById('back-btn');
-const origin = window.location.origin; // "http://localhost:8000"
+const origin = window.location.origin;
 const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
+const token = localStorage.getItem('token');
+const role = localStorage.getItem('role');
 
-// Example: Get project ID from query string (e.g., ?id=789)
+if (!token || role !== 'forest_dept') {
+  alert("Unauthorized. Please log in as Forest Department.");
+  window.location.href = '/login.html';
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get('id');
 
-// If editing, load project data
+// Load existing project (edit mode)
 if (projectId) {
-  fetch(`${apiBaseUrl}:5000/api/projects/${projectId}`)
+  fetch(`${apiBaseUrl}:5000/api/projects/${projectId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
     .then(res => res.json())
     .then(project => {
       const inputs = projectForm.querySelectorAll('input, select');
@@ -24,6 +32,7 @@ if (projectId) {
     })
     .catch(err => {
       console.error('Error loading project data:', err);
+      alert('Failed to load project');
     });
 }
 
@@ -40,17 +49,20 @@ projectForm.addEventListener('submit', (e) => {
   };
 
   const method = projectId ? 'PUT' : 'POST';
-  const url = projectId ? `${apiBaseUrl}:5000/api/projects/${projectId}` : `${apiBaseUrl}:5000/api/projects`;
+  const url = projectId
+    ? `${apiBaseUrl}:5000/api/projects/${projectId}`
+    : `${apiBaseUrl}:5000/api/projects`;
 
   fetch(url, {
     method: method,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(payload)
   })
     .then(res => res.json())
-    .then(data => {
+    .then(() => {
       alert('Project saved successfully!');
       window.location.href = 'forest_dashboard.html';
     })

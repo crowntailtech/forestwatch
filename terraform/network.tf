@@ -63,6 +63,13 @@ resource "aws_security_group" "ecs_sg" {
     cidr_blocks = ["0.0.0.0/0"]  # Backend (Flask)
   }
 
+  ingress {
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Frontend (Flask)
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

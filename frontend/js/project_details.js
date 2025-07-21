@@ -1,16 +1,30 @@
-// project_details.js (API-ready)
+// project_details.js (API-ready with token + safe fallback)
 
 const projectInfoDiv = document.getElementById('project-info');
 const backBtn = document.getElementById('back-btn');
-const origin = window.location.origin; // "http://localhost:8000"
-const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
-// Example: Get project ID from query string (e.g., ?id=123)
+const origin = window.location.origin;
+const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
+const token = localStorage.getItem('token');
+const role = localStorage.getItem('role');
+
+if (!token || role !== 'citizen') {
+  alert("Unauthorized. Please log in as a citizen.");
+  window.location.href = '/login.html';
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get('id');
 
+if (!projectId) {
+  projectInfoDiv.innerHTML = '<p>Invalid project ID.</p>';
+  throw new Error('Missing project ID in URL');
+}
+
 function loadProjectDetails() {
-  fetch(`${apiBaseUrl}:5000/api/projects/${projectId}`)
+  fetch(`${apiBaseUrl}:5000/api/projects/${projectId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
     .then(res => res.json())
     .then(project => {
       projectInfoDiv.innerHTML = `
