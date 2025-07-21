@@ -20,6 +20,10 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(project_bp, url_prefix='/api')
     app.register_blueprint(complaint_bp, url_prefix='/api')
+    
+    @app.route("/")
+    def health():
+        return "ok", 200
 
     with app.app_context():
         db.create_all()
