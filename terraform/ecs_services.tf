@@ -6,16 +6,28 @@ resource "aws_ecs_service" "combined" {
   desired_count   = 1
 
   network_configuration {
-    subnets         = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+    subnets          = [aws_subnet.public_a.id, aws_subnet.public_b.id]
     assign_public_ip = true
-    security_groups = [aws_security_group.ecs_sg.id]
+    security_groups  = [aws_security_group.ecs_sg.id]
   }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.combined_tg.arn
     container_name   = "combined-app"
-    container_port   = 8000 # serving frontend on 8000 via Python HTTP server
+    container_port   = 8000
   }
 
-  depends_on = [aws_lb_listener.combined_listener]
+  depends_on = [
+    aws_lb_listener.combined_listener,
+    aws_cloudwatch_log_group.combined_logs
+  ]
+}
+
+resource "aws_cloudwatch_log_group" "combined_logs" {
+  name              = "/ecs/${var.student_id}-combined"
+  retention_in_days = 7
+
+  tags = {
+    Name = "Combined ECS Log Group"
+  }
 }
