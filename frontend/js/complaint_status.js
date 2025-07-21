@@ -8,7 +8,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const complaintId = urlParams.get('id');
 
 function loadComplaintDetails() {
-  fetch(`/api/complaints/${complaintId}`)
+  fetch(`http://backend.local:5000/api/complaints/${complaintId}`)
     .then(res => res.json())
     .then(complaint => {
       complaintInfoDiv.innerHTML = `

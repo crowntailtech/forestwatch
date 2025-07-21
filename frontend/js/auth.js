@@ -73,7 +73,7 @@ registerForm.addEventListener('submit', (e) => {
     password: password
   };
 
-  fetch('/api/register', {
+  fetch('http://backend.local:5000/api/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

@@ -8,7 +8,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get('id');
 
 function loadProjectDetails() {
-  fetch(`/api/projects/${projectId}`)
+  fetch(`http://backend.local:5000/api/projects/${projectId}`)
     .then(res => res.json())
     .then(project => {
       projectInfoDiv.innerHTML = `
