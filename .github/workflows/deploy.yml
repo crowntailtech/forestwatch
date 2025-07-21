@@ -59,28 +59,20 @@ jobs:
         TF_VAR_student_id: ${{ secrets.TF_VAR_student_id }}
         TF_VAR_s3_access_key: ${{ secrets.S3_ACCESS_KEY }}
 
-    - name: Decode & Inject Backend Env
+    - name: Decode & Inject .env for Backend
       run: echo "${{ secrets.BACKEND_ENV_FILE }}" | base64 --decode > backend/.env
 
-    - name: Build & Push Backend Docker Image
+    - name: Build & Push Combined Docker Image
       run: |
-        IMAGE_URI=$(terraform -chdir=terraform output -raw backend_ecr_repo_url)
-        docker build -t $IMAGE_URI ./backend
-        echo "Pushing backend image to $IMAGE_URI"
+        IMAGE_URI=$(terraform -chdir=terraform output -raw combined_ecr_repo_url)
+        docker build -t $IMAGE_URI .
+        echo "Pushing image to $IMAGE_URI"
         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $IMAGE_URI
         docker push $IMAGE_URI
 
-    - name: Build & Push Frontend Docker Image
-      run: |
-        IMAGE_URI=$(terraform -chdir=terraform output -raw frontend_ecr_repo_url)
-        docker build -t $IMAGE_URI ./frontend
-        echo "Pushing frontend image to $IMAGE_URI"
-        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $IMAGE_URI
-        docker push $IMAGE_URI
-
-    - name: Update ECS Service
+    - name: Update ECS Service (Single Combined Service)
       run: |
         aws ecs update-service \
           --cluster $(terraform -chdir=terraform output -raw ecs_cluster_name) \
-          --service $(terraform -chdir=terraform output -raw backend_service_name) \
+          --service $(terraform -chdir=terraform output -raw combined_service_name) \
           --force-new-deployment

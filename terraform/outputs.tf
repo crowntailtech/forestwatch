@@ -1,23 +1,18 @@
-output "backend_ecr_repo_url" {
-  value = aws_ecr_repository.backend_repo.repository_url
+# Combined ECR Repo
+output "combined_ecr_repo_url" {
+  value = aws_ecr_repository.combined_repo.repository_url
 }
 
-output "frontend_ecr_repo_url" {
-  value = aws_ecr_repository.frontend_repo.repository_url
+# Combined ECS Service
+output "combined_service_name" {
+  value = aws_ecs_service.combined.name
 }
 
 output "ecs_cluster_name" {
   value = aws_ecs_cluster.main.name
 }
 
-output "backend_service_name" {
-  value = aws_ecs_service.backend.name
-}
-
-output "frontend_service_name" {
-  value = aws_ecs_service.frontend.name
-}
-
+# S3 Bucket for complaint images
 output "s3_bucket_name" {
   value = aws_s3_bucket.complaint_images.bucket
 }
