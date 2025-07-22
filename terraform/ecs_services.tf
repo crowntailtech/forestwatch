@@ -14,7 +14,7 @@ resource "aws_ecs_service" "combined" {
   load_balancer {
     target_group_arn = aws_lb_target_group.combined_tg.arn
     container_name   = "combined-app"
-    container_port   = 8000
+    container_port   = 5000
   }
 
   depends_on = [

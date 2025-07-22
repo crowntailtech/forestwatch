@@ -29,7 +29,7 @@ resource "aws_lb" "combined_alb" {
 # Target Group for combined container (serving frontend on port 8000)
 resource "aws_lb_target_group" "combined_tg" {
   name        = "${var.student_id}-combined-tg"
-  port        = 8000
+  port        = 5000
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"

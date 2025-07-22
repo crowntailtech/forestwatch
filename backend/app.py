@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from routes.auth_routes import auth_bp
 from routes.project_routes import project_bp
 from routes.complaint_routes import complaint_bp
+from routes.moderation_callback import moderation_bp
 from config import Config
 
 def create_app():
@@ -20,6 +21,7 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(project_bp, url_prefix='/api')
     app.register_blueprint(complaint_bp, url_prefix='/api')
+    app.register_blueprint(moderation_bp, url_prefix='/api')
 
     @app.route("/")
     def health():
