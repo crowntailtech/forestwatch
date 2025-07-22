@@ -58,6 +58,8 @@ jobs:
       env:
         TF_VAR_student_id: ${{ secrets.TF_VAR_student_id }}
         TF_VAR_s3_access_key: ${{ secrets.S3_ACCESS_KEY }}
+        TF_VAR_AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+        TF_VAR_AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
     - name: Decode & Inject .env for Backend
       run: echo "${{ secrets.BACKEND_ENV_FILE }}" | base64 --decode > backend/.env

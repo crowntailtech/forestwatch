@@ -10,7 +10,7 @@ const role = localStorage.getItem('role');
 
 if (!token || role !== 'citizen') {
   alert("Unauthorized. Please log in as a citizen.");
-  window.location.href = '/login.html';
+  window.location.href = '/auth.html';
 }
 
 const urlParams = new URLSearchParams(window.location.search);

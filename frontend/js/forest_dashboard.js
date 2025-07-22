@@ -12,7 +12,7 @@ const role = localStorage.getItem('role');
 
 if (!token || role !== 'forest_dept') {
   alert("Unauthorized. Please log in with Forest Dept credentials.");
-  window.location.href = '/login.html';
+  window.location.href = '/auth.html';
 }
 
 // Load projects
@@ -71,6 +71,7 @@ function loadComplaints() {
 // Project actions
 function editProject(id) {
   alert(`Edit project ${id} (future: redirect to edit form)`);
+  window.location.href = `project_form.html?id=${id}`;
 }
 
 function deleteProject(id) {
@@ -93,7 +94,7 @@ function deleteProject(id) {
 
 // Complaint status update
 function updateComplaintStatus(id, status) {
-  fetch(`${apiBaseUrl}:5000/api/complaints/${id}`, {
+  fetch(`${apiBaseUrl}:5000/api/complaints/${id}/status`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -114,14 +115,15 @@ function updateComplaintStatus(id, status) {
 
 // Add new project (future)
 newProjectBtn.addEventListener('click', () => {
-  alert('Redirecting to add new project form (future link)');
+  alert('Redirecting to add new project form');
+  window.location.href = 'project_form.html';
 });
 
 // Logout
 logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('token');
   localStorage.removeItem('role');
-  window.location.href = '/login.html';
+  window.location.href = '/auth.html';
 });
 
 // Initialize

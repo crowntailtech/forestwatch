@@ -28,7 +28,7 @@ resource "aws_lambda_function" "audit_logger" {
 
   environment {
     variables = {
-      DYNAMO_TABLE = aws_dynamodb_table.audit_logs.name
+      AUDIT_TABLE = aws_dynamodb_table.audit_logs.name
     }
   }
 }

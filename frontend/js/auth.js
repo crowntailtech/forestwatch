@@ -83,7 +83,7 @@ registerForm.addEventListener('submit', (e) => {
   .then(data => {
     if (data.success) {
       alert('Registration successful. Redirecting to login...');
-      window.location.href = '/login.html';
+      window.location.href = '/auth.html';
     } else {
       alert('Registration failed. Try again.');
     }

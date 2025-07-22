@@ -8,7 +8,7 @@ const token = localStorage.getItem('token');
 
 if (!token) {
   alert("Unauthorized. Please log in.");
-  window.location.href = '/login.html';
+  window.location.href = '/auth.html';
 }
 
 complaintForm.addEventListener('submit', (e) => {

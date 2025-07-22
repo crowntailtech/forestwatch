@@ -27,3 +27,13 @@ variable "s3_access_key" {
   description = "S3 Access Key (injected via GitHub Actions)"
   type        = string
 }
+
+variable "AWS_ACCESS_KEY" {
+  description = "Access key from GitHub Secrets"
+  type        = string
+}
+
+variable "AWS_SECRET_KEY" {
+  description = "Secret key from GitHub Secrets"
+  type        = string
+}

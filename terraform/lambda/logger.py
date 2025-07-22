@@ -1,10 +1,12 @@
+import os
 import json
 import boto3
 import uuid
 from datetime import datetime
 
+AUDIT_TABLE = os.environ['AUDIT_TABLE']
 dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('ImageModerationLogs')
+table = dynamodb.Table(AUDIT_TABLE)
 
 def lambda_handler(event, context):
     for record in event['Records']:

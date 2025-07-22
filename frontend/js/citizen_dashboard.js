@@ -11,7 +11,7 @@ const token = localStorage.getItem('token');
 
 if (!token) {
   alert("Unauthorized. Please log in.");
-  window.location.href = '/login.html';
+  window.location.href = '/auth.html';
 }
 
 // Load projects from API
@@ -42,7 +42,7 @@ function loadProjects() {
 
 // Load complaints from API
 function loadComplaints() {
-  fetch(`${apiBaseUrl}:5000/api/complaints`, {
+  fetch(`${apiBaseUrl}:5000/api/complaints/user`, {
     headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => res.json())
@@ -52,8 +52,12 @@ function loadComplaints() {
         const card = document.createElement('div');
         card.className = 'complaint-card';
         card.innerHTML = `
-          <p>${c.desc}</p>
-          <p>Status: ${c.status}</p>
+          <p><strong>Description:</strong> ${c.description}</p>
+          <p><strong>Category:</strong> ${c.category}</p>
+          <p><strong>Location:</strong> ${c.location}</p>
+          <p><strong>Status:</strong> ${c.status}</p>
+          <p><strong>Created At:</strong> ${c.created_at}</p>
+          <img src="${c.image_url}" alt="Complaint Image" style="max-width: 100%; border-radius: 5px;" onerror="this.style.display='none'">
         `;
         complaintsList.appendChild(card);
       });
@@ -73,7 +77,7 @@ newComplaintBtn.addEventListener('click', () => {
 logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('token');
   localStorage.removeItem('role');
-  window.location.href = '/login.html';
+  window.location.href = '/auth.html';
 });
 
 // Initialize

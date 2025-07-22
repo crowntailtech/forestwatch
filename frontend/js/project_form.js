@@ -9,7 +9,7 @@ const role = localStorage.getItem('role');
 
 if (!token || role !== 'forest_dept') {
   alert("Unauthorized. Please log in as Forest Department.");
-  window.location.href = '/login.html';
+  window.location.href = '/auth.html';
 }
 
 const urlParams = new URLSearchParams(window.location.search);

@@ -102,6 +102,11 @@ resource "aws_iam_policy" "lambda_policy" {
       },
       {
         Effect   = "Allow",
+        Action   = ["dynamodb:PutItem"],
+        Resource = "arn:aws:dynamodb:*:*:table/ImageModerationLogs"
+      },
+      {
+        Effect   = "Allow",
         Action   = ["logs:*"],
         Resource = "*"
       }
