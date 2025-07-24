@@ -1,8 +1,8 @@
-// submit_complaint.js (API-ready with token + redirect)
+// submit_complaint.js
 
 const complaintForm = document.getElementById('complaint-form');
 const backBtn = document.getElementById('back-btn');
-const origin = window.location.origin; // e.g., http://localhost:8000
+const origin = window.location.origin;
 const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 const token = localStorage.getItem('token');
 

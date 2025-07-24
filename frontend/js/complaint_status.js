@@ -1,4 +1,4 @@
-// complaint_status.js (API-ready with token, error handling)
+// complaint_status.js
 
 const complaintInfoDiv = document.getElementById('complaint-info');
 const backBtn = document.getElementById('back-btn');

@@ -1,4 +1,4 @@
-// project_details.js (API-ready with token + safe fallback)
+// project_details.js
 
 const projectInfoDiv = document.getElementById('project-info');
 const backBtn = document.getElementById('back-btn');

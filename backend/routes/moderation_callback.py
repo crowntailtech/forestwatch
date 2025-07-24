@@ -10,7 +10,7 @@ def moderation_callback():
     data = request.get_json()
 
     complaint_id = data.get("complaint_id")
-    reason = data.get("reason")  # e.g., "Image rejected due to policy violation: Nudity (Confidence: 94%)"
+    reason = data.get("reason")  # example: "Image rejected due to policy violation: Nudity (Confidence: 94%)"
 
     if not complaint_id or not reason:
         return jsonify({"error": "Missing complaint_id or reason"}), 400

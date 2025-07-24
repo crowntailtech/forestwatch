@@ -4,9 +4,7 @@ from utils.auth_helper import token_required
 
 project_bp = Blueprint('project', __name__)
 
-# --------------------
 # Get all projects
-# --------------------
 @project_bp.route('/projects', methods=['GET'])
 def get_projects():
     projects = Project.query.all()
@@ -23,9 +21,7 @@ def get_projects():
         })
     return jsonify(result), 200
 
-# --------------------
 # Get project by ID
-# --------------------
 @project_bp.route('/projects/<int:project_id>', methods=['GET'])
 def get_project(project_id):
     proj = Project.query.get_or_404(project_id)
@@ -39,9 +35,7 @@ def get_project(project_id):
         'trees_planted': proj.trees_planted
     }), 200
 
-# --------------------
 # Create project (Forest Dept only)
-# --------------------
 @project_bp.route('/projects', methods=['POST'])
 @token_required
 def create_project(current_user):
@@ -61,9 +55,7 @@ def create_project(current_user):
     db.session.commit()
     return jsonify({'message': 'Project created successfully'}), 201
 
-# --------------------
 # Update project
-# --------------------
 @project_bp.route('/projects/<int:project_id>', methods=['PUT'])
 @token_required
 def update_project(current_user, project_id):
@@ -83,9 +75,7 @@ def update_project(current_user, project_id):
     db.session.commit()
     return jsonify({'message': 'Project updated successfully'}), 200
 
-# --------------------
 # Delete project
-# --------------------
 @project_bp.route('/projects/<int:project_id>', methods=['DELETE'])
 @token_required
 def delete_project(current_user, project_id):

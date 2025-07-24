@@ -1,11 +1,11 @@
-// citizen_dashboard.js (API-ready with token & logout)
+// citizen_dashboard.js
 
 const projectsList = document.getElementById('projects-list');
 const complaintsList = document.getElementById('complaints-list');
 const newComplaintBtn = document.getElementById('new-complaint-btn');
 const logoutBtn = document.getElementById('logout-btn');
 
-const origin = window.location.origin; // e.g., http://localhost:8000
+const origin = window.location.origin;
 const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 const token = localStorage.getItem('token');
 

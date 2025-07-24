@@ -1,4 +1,4 @@
-// forest_dashboard.js (API-ready with token + logout)
+// forest_dashboard.js
 
 const projectsList = document.getElementById('projects-list');
 const complaintsList = document.getElementById('complaints-list');
@@ -129,7 +129,7 @@ function updateComplaintStatus(id, status) {
     });
 }
 
-// Add new project (future)
+// Add new project
 newProjectBtn.addEventListener('click', () => {
   alert('Redirecting to add new project form');
   window.location.href = 'project_form.html';

@@ -7,9 +7,7 @@ from datetime import datetime
 
 complaint_bp = Blueprint('complaints', __name__)
 
-# -------------------------------------
-# 1. Create new complaint (Citizen)
-# -------------------------------------
+# Create new complaint (Citizen)
 @complaint_bp.route('/complaints', methods=['POST'])
 @token_required
 def create_complaint(current_user):
@@ -44,9 +42,7 @@ def create_complaint(current_user):
 
     return jsonify({'message': 'Complaint submitted successfully'}), 201
 
-# -------------------------------------
-# 2. View complaints (Forest Dept)
-# -------------------------------------
+# View complaints (Forest Dept)
 @complaint_bp.route('/complaints', methods=['GET'])
 @token_required
 def get_all_complaints(current_user):
@@ -70,9 +66,7 @@ def get_all_complaints(current_user):
 
     return jsonify(results), 200
 
-# -------------------------------------
-# 3. View citizen's own complaints
-# -------------------------------------
+# View citizen's own complaints
 @complaint_bp.route('/complaints/user', methods=['GET'])
 @token_required
 def get_user_complaints(current_user):
@@ -92,9 +86,7 @@ def get_user_complaints(current_user):
 
     return jsonify(results), 200
 
-# -------------------------------------
-# 4. Update complaint status (Forest Dept)
-# -------------------------------------
+# Update complaint status (Forest Dept)
 @complaint_bp.route('/complaints/<int:complaint_id>/status', methods=['PUT'])
 @token_required
 def update_complaint_status(current_user, complaint_id):
@@ -115,9 +107,7 @@ def update_complaint_status(current_user, complaint_id):
 
     return jsonify({'message': 'Complaint status updated'}), 200
 
-# -------------------------------------
-# 5. Withdraw complaint (Soft Delete)
-# -------------------------------------
+# Withdraw complaint (Soft Delete)
 @complaint_bp.route('/complaints/<int:complaint_id>', methods=['DELETE'])
 @token_required
 def withdraw_complaint(current_user, complaint_id):

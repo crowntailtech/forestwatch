@@ -26,7 +26,7 @@ resource "aws_lb" "combined_alb" {
   security_groups    = [aws_security_group.alb_sg.id]
 }
 
-# Target Group for combined container (serving frontend on port 8000)
+# Target Group for combined container
 resource "aws_lb_target_group" "combined_tg" {
   name        = "${var.student_id}-combined-tg"
   port        = 5000
@@ -46,7 +46,7 @@ resource "aws_lb_target_group" "combined_tg" {
   }
 }
 
-# Listener for Combined ALB
+# Listener for Combined (Backend and Frontend) ALB
 resource "aws_lb_listener" "combined_listener" {
   load_balancer_arn = aws_lb.combined_alb.arn
   port              = 80

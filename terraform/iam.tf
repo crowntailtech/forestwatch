@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "ecs_task_assume" {
   }
 }
 
-# ECS Task Role (used as taskRoleArn)
+# ECS Task Role
 resource "aws_iam_role" "ecs_task_role" {
   name               = "${var.student_id}-ecs-task-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_assume.json
@@ -19,7 +19,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
 }
 
-# ECS Execution Role (used as executionRoleArn)
+# ECS Execution Role
 resource "aws_iam_role" "ecs_execution" {
   name = "${var.student_id}-ecs-execution-role"
 
@@ -41,7 +41,7 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# ✅ Additional: Allow ECR GetAuthorizationToken for image pulls
+# Additional: Allow ECR GetAuthorizationToken for image pulls
 resource "aws_iam_role_policy_attachment" "ecs_execution_ecr_access" {
   role       = aws_iam_role.ecs_execution.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"

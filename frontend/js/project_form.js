@@ -1,4 +1,4 @@
-// project_form.js (API-ready with auth)
+// project_form.js
 
 const projectForm = document.getElementById('project-form');
 const backBtn = document.getElementById('back-btn');

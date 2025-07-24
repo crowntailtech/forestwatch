@@ -4,9 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-# ------------------------
 # User model
-# ------------------------
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -22,10 +20,7 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-
-# ------------------------
 # Project model
-# ------------------------
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
@@ -35,10 +30,7 @@ class Project(db.Model):
     trees_target = db.Column(db.Integer, nullable=False)
     trees_planted = db.Column(db.Integer, nullable=False)
 
-
-# ------------------------
 # Complaint model
-# ------------------------
 class Complaint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     complaint_id = db.Column(db.String(50), unique=True)
