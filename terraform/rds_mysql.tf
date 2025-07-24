@@ -1,5 +1,5 @@
 resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "${var.student_id}-rds-subnet-group"
+  name       = "rds-${var.student_id}-rds-subnet-group"
   subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
 
   tags = {
