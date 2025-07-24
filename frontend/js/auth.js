@@ -71,19 +71,19 @@ registerForm.addEventListener('submit', (e) => {
   const password = registerForm.querySelector('input[name="password"]').value;
 
   const payload = { name, email, phone, region, password };
-
   fetch(`${apiBaseUrl}:5000/api/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
+  .then(async (res) => {
+    const data = await res.json();
+    
+    if (res.status === 201 || res.ok) {
       alert('Registration successful. Redirecting to login...');
       window.location.href = '/auth.html';
     } else {
-      alert('Registration failed. Try again.');
+      alert(data.message || 'Registration failed. Try again.');
     }
   })
   .catch(err => {
