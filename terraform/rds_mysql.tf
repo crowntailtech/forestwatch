@@ -1,5 +1,5 @@
 resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "${var.student_id}-rds-subnet-group"
+  name       = "fw-${var.student_id}-rds-subnet-group"
   subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
 
   tags = {
@@ -8,7 +8,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 }
 
 resource "aws_security_group" "rds_sg" {
-  name        = "${var.student_id}-rds-sg"
+  name        = "fw-${var.student_id}-rds-sg"
   description = "Allow backend ECS access"
   vpc_id      = aws_vpc.main.id
 
@@ -27,7 +27,7 @@ resource "aws_security_group" "rds_sg" {
   }
 
   tags = {
-    Name = "${var.student_id}-rds-sg"
+    Name = "fw-${var.student_id}-rds-sg"
   }
 }
 
@@ -47,7 +47,7 @@ resource "aws_db_instance" "mysql" {
   publicly_accessible     = false
 
   tags = {
-    Name = "${var.student_id}-mysql-db"
+    Name = "fw-${var.student_id}-mysql-db"
   }
 }
 
