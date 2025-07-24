@@ -1,11 +1,9 @@
-// auth.js (API-ready with redirect support)
-
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const formTitle = document.getElementById('form-title');
 const toggleText = document.getElementById('toggle-text');
 const toggleLink = document.getElementById('toggle-link');
-const origin = window.location.origin; // e.g., http://localhost:8000
+const origin = window.location.origin;
 const apiBaseUrl = origin.split(':').slice(0, 2).join(':');
 
 let showingLogin = true;
@@ -66,11 +64,11 @@ loginForm.addEventListener('submit', (e) => {
 registerForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const name = registerForm.querySelector('input[type="text"]').value;
-  const email = registerForm.querySelector('input[type="email"]').value;
-  const phone = registerForm.querySelector('input[type="text"]:nth-of-type(2)').value;
-  const region = registerForm.querySelector('input[type="text"]:nth-of-type(3)').value;
-  const password = registerForm.querySelector('input[type="password"]').value;
+  const name = registerForm.querySelector('input[name="name"]').value;
+  const email = registerForm.querySelector('input[name="email"]').value;
+  const phone = registerForm.querySelector('input[name="phone"]').value;
+  const region = registerForm.querySelector('input[name="region"]').value;
+  const password = registerForm.querySelector('input[name="password"]').value;
 
   const payload = { name, email, phone, region, password };
 
