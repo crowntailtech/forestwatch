@@ -16,7 +16,7 @@ resource "aws_security_group" "rds_sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [aws_security_group.backend_ecs_sg.id]
+    security_groups = [aws_security_group.ecs_sg.id]
   }
 
   egress {
@@ -42,7 +42,7 @@ resource "aws_db_instance" "mysql" {
   password                = var.rds_password
   port                    = 3306
   skip_final_snapshot     = true
-  vpc_security_group_ids  = [aws_security_group.ecs_sg.id]
+  vpc_security_group_ids  = [aws_security_group.rds_sg.id]
   db_subnet_group_name    = aws_db_subnet_group.rds_subnet_group.name
   publicly_accessible     = false
 
