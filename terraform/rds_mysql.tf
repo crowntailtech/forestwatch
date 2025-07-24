@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "${var.student_id}-rds-subnet-group"
-  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+  subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
 
   tags = {
     Name = "${var.student_id}-rds-subnet-group"
@@ -42,7 +42,7 @@ resource "aws_db_instance" "mysql" {
   password                = var.rds_password
   port                    = 3306
   skip_final_snapshot     = true
-  vpc_security_group_ids  = [aws_security_group.rds_sg.id]
+  vpc_security_group_ids  = [aws_security_group.ecs_sg.id]
   db_subnet_group_name    = aws_db_subnet_group.rds_subnet_group.name
   publicly_accessible     = false
 
