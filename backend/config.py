@@ -1,8 +1,11 @@
 import os
 
 class Config:
-    # Replace with your actual RDS endpoint
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://admin:QZZLJlcdpp871(@database-2.cax0essmgh0i.us-east-1.rds.amazonaws.com/forestwatch'
+    
+    DB_USERNAME = os.environ.get('DB_USERNAME')
+    DB_PASSWORD = os.environ.get('DB_PASSWORD')
+    DB_HOST = os.environ.get('DB_HOST')
+    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/forestwatch'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY', '456ytfvgy6edfgt4erthggr456')
 
