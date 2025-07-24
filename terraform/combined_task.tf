@@ -26,8 +26,8 @@ resource "aws_ecs_task_definition" "combined" {
         { name = "SQS_QUEUE_URL", value = aws_sqs_queue.audit_queue.id },
         { name = "AWS_ACCESS_KEY", value = var.AWS_ACCESS_KEY },
         { name = "AWS_SECRET_KEY", value = var.AWS_SECRET_KEY },
-        { name = "AWS_SECRET_KEY", value = var.rds_username },
-        { name = "AWS_SECRET_KEY", value = var.rds_password }
+        { name = "DB_USERNAME", value = var.rds_username },
+        { name = "DB_PASSWORD", value = var.rds_password }
       ],
       logConfiguration = {
         logDriver = "awslogs",
