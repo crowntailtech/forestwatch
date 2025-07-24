@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"  # Change if needed
-}
-
 resource "aws_db_subnet_group" "mysql_subnet_group" {
   name       = "mysql-subnet-group"
   subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
