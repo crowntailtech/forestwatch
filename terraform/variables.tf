@@ -14,13 +14,13 @@ variable "aws_region" {
 }
 
 variable "student_id" {
-  default = "11258998"
+  default = "20216777"
 }
 
 variable "forest_department_email" {
   description = "Email address to notify for moderation alerts"
   type        = string
-  default     = "forest-dept@example.com"
+  default     = "forest-dept@test.com"
 }
 
 variable "s3_access_key" {
@@ -35,5 +35,15 @@ variable "AWS_ACCESS_KEY" {
 
 variable "AWS_SECRET_KEY" {
   description = "Secret key from GitHub Secrets"
+  type        = string
+}
+
+variable "rds_password" {
+  description = "Database Password from GitHub Secrets"
+  type        = string
+}
+
+variable "rds_username" {
+  description = "Database Password from GitHub Secrets"
   type        = string
 }
