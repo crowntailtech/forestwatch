@@ -1,22 +1,22 @@
-resource "aws_db_subnet_group" "mysql_subnet_group" {
-  name       = "mysql-subnet-group"
-  subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+resource "aws_db_subnet_group" "rds_subnet_group" {
+  name       = "${var.student_id}-rds-subnet-group"
+  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
 
   tags = {
-    Name = "MySQL Subnet Group"
+    Name = "${var.student_id}-rds-subnet-group"
   }
 }
 
-resource "aws_security_group" "mysql_sg" {
-  name        = "mysql-public-sg"
-  description = "Allow MySQL public access"
+resource "aws_security_group" "rds_sg" {
+  name        = "${var.student_id}-rds-sg"
+  description = "Allow backend ECS access"
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.backend_ecs_sg.id]
   }
 
   egress {
@@ -25,23 +25,32 @@ resource "aws_security_group" "mysql_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "${var.student_id}-rds-sg"
+  }
 }
 
 resource "aws_db_instance" "mysql" {
-  identifier              = "public-mysql-db"
+  identifier              = "${var.student_id}-mysql-db"
   engine                  = "mysql"
   engine_version          = "8.0"
   instance_class          = "db.t3.micro"
   allocated_storage       = 20
-  db_name                 = "defaultdb"
-  username                = "admin"
-  password                = "QZZLJlcdpp871("
-  publicly_accessible     = true
+  db_name                 = "forestwatch"
+  username                = var.rds_username
+  password                = var.rds_password
+  port                    = 3306
   skip_final_snapshot     = true
-  vpc_security_group_ids  = [aws_security_group.mysql_sg.id]
-  db_subnet_group_name    = aws_db_subnet_group.mysql_subnet_group.name
+  vpc_security_group_ids  = [aws_security_group.rds_sg.id]
+  db_subnet_group_name    = aws_db_subnet_group.rds_subnet_group.name
+  publicly_accessible     = true
 
   tags = {
-    Name = "MyPublicMySQL"
+    Name = "${var.student_id}-mysql-db"
   }
+}
+
+output "rds_endpoint" {
+  value = aws_db_instance.mysql.endpoint
 }
