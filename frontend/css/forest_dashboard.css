@@ -1,5 +1,3 @@
-/* forest_dashboard.css */
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -13,6 +11,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+header div {
+  display: flex;
+  gap: 0.5rem;
 }
 
 h1 {

@@ -3,6 +3,7 @@ from flask_cors import CORS
 from models import db
 from flask_migrate import Migrate
 from routes.auth_routes import auth_bp
+from routes.report_summary import report_bp
 from routes.project_routes import project_bp
 from routes.complaint_routes import complaint_bp
 from routes.moderation_callback import moderation_bp
@@ -19,6 +20,7 @@ def create_app():
 
     # Register Blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')
+    app.register_blueprint(report_bp, url_prefix='/api')
     app.register_blueprint(project_bp, url_prefix='/api')
     app.register_blueprint(complaint_bp, url_prefix='/api')
     app.register_blueprint(moderation_bp, url_prefix='/api')

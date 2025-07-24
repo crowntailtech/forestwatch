@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from utils.auth_helper import token_required
+from utils.image_helper import delete_from_s3
 from utils.complaint_helper import mark_complaint_as_rejected
 
 moderation_bp = Blueprint('moderation_bp', __name__)
@@ -15,6 +16,9 @@ def moderation_callback():
         return jsonify({"error": "Missing complaint_id or reason"}), 400
 
     # Update complaint status and rejection reason in DB
-    mark_complaint_as_rejected(complaint_id, reason)
+    status = mark_complaint_as_rejected(complaint_id, reason)
+    
+    if status != "success":
+        return jsonify({"error": "Something went wrong"}), 400
 
     return jsonify({"message": "Complaint updated with rejection reason"}), 200

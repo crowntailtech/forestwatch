@@ -56,11 +56,7 @@ def lambda_handler(event, context):
             Message=f"Image '{key}' uploaded to bucket '{bucket}' was deleted due to content violation. Labels: {json.dumps(flagged)}"
         )
 
-        # 4. Extract complaint_id from key
-        match = re.search(r'complaints/(\d+)', key)
-        complaint_id = match.group(1) if match else None
-
-        # 5. Call rejection API if we have complaint_id
+        complaint_id = key
         if complaint_id:
             try:
                 reason_labels = [
@@ -70,7 +66,7 @@ def lambda_handler(event, context):
                 reason = "Image rejected due to policy violation: " + ", ".join(reason_labels)
 
                 callback_data = {
-                    "complaint_id": int(complaint_id),
+                    "complaint_id": complaint_id,
                     "reason": reason
                 }
                 headers = { "Content-Type": "application/json" }

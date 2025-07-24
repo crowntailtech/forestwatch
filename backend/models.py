@@ -41,6 +41,7 @@ class Project(db.Model):
 # ------------------------
 class Complaint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    complaint_id = db.Column(db.String(50), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     description = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(50), nullable=False)

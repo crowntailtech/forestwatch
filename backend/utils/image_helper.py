@@ -1,6 +1,5 @@
 import boto3
 import os
-import uuid
 from flask import current_app
 from werkzeug.utils import secure_filename
 from PIL import Image, ImageDraw, ImageFont
@@ -46,13 +45,13 @@ def add_watermark(image_file):
     output.seek(0)
     return output
 
-def upload_to_s3(file):
+def upload_to_s3(file, key):
     s3 = get_s3_client()
     bucket = current_app.config['S3_BUCKET']
 
     filename = secure_filename(file.filename)
     ext = filename.rsplit('.', 1)[-1].lower()
-    key = f"complaints/{uuid.uuid4()}.{ext}"
+    key = f"complaints/{key}.{ext}"
 
     # Apply watermark
     watermarked_file = add_watermark(file)

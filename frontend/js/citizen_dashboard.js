@@ -25,11 +25,17 @@ function loadProjects() {
 
       projects.forEach(project => {
         const card = document.createElement('div');
+        const percent = Math.min(100, Math.round((project.trees_planted / project.trees_target) * 100));
         card.className = 'project-card';
         card.innerHTML = `
           <h3>${project.name}</h3>
-          <p>Region: ${project.region}</p>
-          <p>Status: ${project.status}</p>
+          <p><strong>Region:</strong> ${project.region}</p>
+          <p><strong>Status:</strong> ${project.status}</p>
+          <p><strong>Start Date:</strong> ${project.start_date}</p>
+          <p><strong>Trees Planted:</strong> ${project.trees_planted} / ${project.trees_target}</p>
+          <div style="background: #ddd; border-radius: 4px; overflow: hidden; height: 10px; margin-bottom: 0.5rem;">
+            <div style="width: ${percent}%; background: #4caf50; height: 100%;"></div>
+          </div>
         `;
         projectsList.appendChild(card);
       });
@@ -56,6 +62,7 @@ function loadComplaints() {
           <p><strong>Category:</strong> ${c.category}</p>
           <p><strong>Location:</strong> ${c.location}</p>
           <p><strong>Status:</strong> ${c.status}</p>
+          <p><strong>Rejection Reason:</strong> ${c.rejection_reason}</p>
           <p><strong>Created At:</strong> ${c.created_at}</p>
           <img src="${c.image_url}" alt="Complaint Image" style="max-width: 100%; border-radius: 5px;" onerror="this.style.display='none'">
         `;

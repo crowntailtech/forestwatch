@@ -1,3 +1,4 @@
+import uuid
 from flask import Blueprint, request, jsonify
 from models import db, Complaint, User
 from utils.auth_helper import token_required
@@ -22,6 +23,7 @@ def create_complaint(current_user):
     description = request.form.get('description')
     category = request.form.get('category')
     location = request.form.get('location')
+    complaint_id = uuid.uuid4()
 
     if not all([description, category, location]):
         return jsonify({'message': 'All fields are required'}), 400
@@ -30,6 +32,7 @@ def create_complaint(current_user):
 
     complaint = Complaint(
         user_id=current_user.id,
+        complaint_id=complaint_id,
         description=description,
         category=category,
         location=location,
@@ -61,6 +64,7 @@ def get_all_complaints(current_user):
             'location': c.location,
             'image_url': c.image_url,
             'status': c.status,
+            'rejection_reason': c.rejection_reason,
             'created_at': c.created_at.strftime('%Y-%m-%d %H:%M')
         })
 
@@ -82,6 +86,7 @@ def get_user_complaints(current_user):
             'location': c.location,
             'image_url': c.image_url,
             'status': c.status,
+            'rejection_reason': c.rejection_reason,
             'created_at': c.created_at.strftime('%Y-%m-%d %H:%M')
         })
 

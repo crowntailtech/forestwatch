@@ -3,6 +3,7 @@
 const projectsList = document.getElementById('projects-list');
 const complaintsList = document.getElementById('complaints-list');
 const newProjectBtn = document.getElementById('new-project-btn');
+const reportBtn = document.getElementById('report-btn');
 const logoutBtn = document.getElementById('logout-btn');
 
 const origin = window.location.origin;
@@ -25,13 +26,21 @@ function loadProjects() {
       projectsList.innerHTML = '';
       projects.forEach(project => {
         const card = document.createElement('div');
+        const percent = Math.min(100, Math.round((project.trees_planted / project.trees_target) * 100));
         card.className = 'project-card';
         card.innerHTML = `
           <h3>${project.name}</h3>
-          <p>Region: ${project.region}</p>
-          <p>Status: ${project.status}</p>
-          <button onclick="editProject(${project.id})">Edit</button>
-          <button onclick="deleteProject(${project.id})">Delete</button>
+          <p><strong>Region:</strong> ${project.region}</p>
+          <p><strong>Status:</strong> ${project.status}</p>
+          <p><strong>Start Date:</strong> ${project.start_date}</p>
+          <p><strong>Trees Planted:</strong> ${project.trees_planted} / ${project.trees_target}</p>
+          <div style="background: #ddd; border-radius: 4px; overflow: hidden; height: 10px; margin-bottom: 0.5rem;">
+            <div style="width: ${percent}%; background: #4caf50; height: 100%;"></div>
+          </div>
+          <div>
+            <button onclick="editProject(${project.id})">Edit</button>
+            <button onclick="deleteProject(${project.id})">Delete</button>
+          </div>
         `;
         projectsList.appendChild(card);
       });
@@ -54,10 +63,17 @@ function loadComplaints() {
         const card = document.createElement('div');
         card.className = 'complaint-card';
         card.innerHTML = `
-          <p>${c.description}</p>
-          <p>Status: ${c.status}</p>
-          <button onclick="updateComplaintStatus(${c.id}, 'In Progress')">Mark In Progress</button>
-          <button onclick="updateComplaintStatus(${c.id}, 'Resolved')">Mark Resolved</button>
+          <p><strong>Description:</strong> ${c.description}</p>
+          <p><strong>Category:</strong> ${c.category}</p>
+          <p><strong>Location:</strong> ${c.location}</p>
+          <p><strong>Status:</strong> ${c.status}</p>
+          <p><strong>Rejection Reason:</strong> ${c.rejection_reason}</p>
+          <p><strong>Created At:</strong> ${c.created_at}</p>
+          <img src="${c.image_url}" alt="Complaint Image" style="max-width: 100%; border-radius: 5px; margin-top: 0.5rem;" onerror="this.style.display='none'">
+          <div style="margin-top: 0.5rem;">
+            <button onclick="updateComplaintStatus(${c.id}, 'In Progress')">Mark In Progress</button>
+            <button onclick="updateComplaintStatus(${c.id}, 'Resolved')">Mark Resolved</button>
+          </div>
         `;
         complaintsList.appendChild(card);
       });
@@ -117,6 +133,11 @@ function updateComplaintStatus(id, status) {
 newProjectBtn.addEventListener('click', () => {
   alert('Redirecting to add new project form');
   window.location.href = 'project_form.html';
+});
+
+// Report page
+reportBtn.addEventListener('click', () => {
+  window.location.href = 'report.html';
 });
 
 // Logout
