@@ -18,14 +18,16 @@ resource "aws_ecs_task_definition" "combined" {
       ],
       environment = [
         { name = "FLASK_ENV",     value = "production" },
-        { name = "DB_HOST",       value = "your-rds-endpoint-here" },
+        { name = "DB_HOST",       value = aws_db_instance.mysql.address },
         { name = "JWT_SECRET",    value = "456ytfvgy6edfgt4erthggr456" },
         { name = "AWS_REGION",    value = "us-east-1" },
         { name = "S3_BUCKET",     value = aws_s3_bucket.complaint_images.bucket },
         { name = "SNS_TOPIC_ARN", value = aws_sns_topic.alert_topic.arn },
         { name = "SQS_QUEUE_URL", value = aws_sqs_queue.audit_queue.id },
         { name = "AWS_ACCESS_KEY", value = var.AWS_ACCESS_KEY },
-        { name = "AWS_SECRET_KEY", value = var.AWS_SECRET_KEY }
+        { name = "AWS_SECRET_KEY", value = var.AWS_SECRET_KEY },
+        { name = "AWS_SECRET_KEY", value = var.rds_username },
+        { name = "AWS_SECRET_KEY", value = var.rds_password }
       ],
       logConfiguration = {
         logDriver = "awslogs",
